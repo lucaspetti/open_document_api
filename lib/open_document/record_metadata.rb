@@ -2,11 +2,13 @@
 
 module OpenDocument
   class RecordMetadata
+    attr_reader :attributes
+
     def initialize(attributes = {})
       @attributes = attributes
     end
 
-    def to_hash
+    def mongoize
       @attributes
     end
 
@@ -27,6 +29,28 @@ module OpenDocument
       end
 
       attribute = send(method)
+    end
+
+    class << self
+
+      def demongoize(object)
+        new(object.to_h)
+      end
+
+      def mongoize(object)
+        case object
+        when OpenDocument::RecordMetadata then object.mongoize
+        when Hash then new(object.to_h).mongoize
+        else object
+        end
+      end
+
+      def evolve(object)
+        case object
+        when OpenDocument::RecordMetadata then object.mongoize
+        else object
+        end
+      end
     end
   end
 end

@@ -26,13 +26,13 @@ RSpec.describe OpenDocument::Record do
       expect(subject.type).to eq('Book')
     end
 
-    context 'when metadata is of type RecordMetadata' do
+    describe 'metadata field' do
       let(:metadata) do
         OpenDocument::RecordMetadata.new(
           {
-            publication_year: 1949,
-            pages: 277,
-            main_character: { name: 'Winston' }
+            'publication_year': 1949,
+            'pages': 277,
+            'main_character': { 'name': 'Winston' }
           }
         )
       end
